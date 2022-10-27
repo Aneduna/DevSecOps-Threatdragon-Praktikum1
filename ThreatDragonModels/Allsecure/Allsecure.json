@@ -20,13 +20,35 @@
                 "height": 100
               },
               "position": {
-                "x": 244,
-                "y": 262
+                "x": 221,
+                "y": 245
               },
               "angle": 0,
               "id": "7b4da85f-47d9-4ea4-997b-719104878707",
               "z": 1,
               "hasOpenThreats": false,
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Denial of service",
+                  "title": "DDOS",
+                  "mitigation": "Load Balancer zur verteilung der Last \nErfordert umstrukturierung der Webrequests. (Änderung der Webapp)\n+ Zusätzliche Server/ Cloud space\nDamage - Diest nicht mehr erreichbar (Temporär) 5\nReproducability - Einfach durch botnetze 10\nExploitability - Braucht wesentlich mehr bots 3\nAffected Users - Alle Nutzer des OTT Dienst 10\nDiscoverability - Well known 10\n-> 7,6",
+                  "description": "Damage - Diest nicht mehr erreichbar (Temporär) 5\nReproducability - Einfach durch botnetze 10\nExploitability - ja 10\nAffected Users - Alle Nutzer des OTT Dienst 10\nDiscoverability - Well known 10\n-> 9",
+                  "threatId": "80ca4239-9c60-4118-9266-edf8a25e348e"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Tampering",
+                  "title": "SQL Injection",
+                  "description": "SQL Injection in der Anfrage.\n\nDamit hat man Zugriff auf Benutzerdaten und kann Benutzerdaten ändern oder löschen\n(Schwer)\nWahrscheinlich da SQL Injections bekannt sind",
+                  "mitigation": "Web Application Firewall (WAF) für generische SQL Injections\nWahrscheinlichkeit stark reduziert (Braucht SQL Injections die WAF nicht erkennt)\nSchwere bleibt gleich",
+                  "threatId": "976e885b-ce8a-47b7-ae9c-192b64a58868"
+                }
+              ],
               "attrs": {
                 ".element-shape": {
                   "class": "element-shape hasNoOpenThreats isInScope"
@@ -53,6 +75,28 @@
               "id": "aae6e867-1cc6-4f3c-a67d-3200e0119e40",
               "z": 2,
               "hasOpenThreats": false,
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "modelType": "STRIDE",
+                  "title": "Standardkrypto hat eine Schwachstelle (0day)",
+                  "type": "Information disclosure",
+                  "description": "Telefonnummern werden mit Schwacher Krypto übertragen und es kommt zu einem  Leak von Kundendaten (Telefonnummern + Namen)\nRelativ unwahrscheinlich (1)\nMittlerer Schweregrad (Nur Telefonnummern + Namen) (5)",
+                  "mitigation": "Doppelt verschlüsseln (VPN mit anderer Krypto)",
+                  "threatId": "a3e7c5c6-f0b9-47ac-a2f0-1c012d302794"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "Telefonnummern-API Gateway Schlüssel werden ausgelesen",
+                  "type": "Information disclosure",
+                  "description": "Auch bei einer starken Krypto kann man mit dem Schlüssel Benutzerdaten auslesen.\nSchweregrad - nur Telefonnummern\nWahrscheinlichkeit - mittel, da man schon Zugriff auf den Service gehabt haben muss",
+                  "mitigation": "Sitzungsbasierte asymmetrische Schlüssel.\n\nAngreifer braucht dann beide Schlüssel\nmacht den Angriff unwahrscheinlicher\n\nWenn man beide schlüssel hat, dann kann man nur noch die Daten einer Sitzung lesen (aber in einer Sitzung immer noch alle Telefonnummern.)",
+                  "threatId": "0366b6ac-9c5f-4225-9b50-58321d193b24"
+                }
+              ],
               "attrs": {
                 ".element-shape": {
                   "class": "element-shape hasNoOpenThreats isInScope"
@@ -157,6 +201,18 @@
               "id": "bb009038-1d52-498f-ac9e-743375219ae8",
               "z": 7,
               "hasOpenThreats": false,
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "title": "Angreifer im Firmennetz ändert Log Dateien",
+                  "type": "Tampering",
+                  "description": "Angreifer hackt einen Mitarbeiter (Auch remote über VPN) und greift direkt auf den Log-Server zu und ändert Daten. (Nicht vom SIEM überwacht)\n\nRelativ Wahrscheinlich \nSchweregrad ist hoch, da das Management \"So viele Daten wie möglich\" haben möchte",
+                  "mitigation": "Zero-trust policy\nMacht den Angriff unmöglich",
+                  "threatId": "164d1c23-22c6-4f2c-b327-2e7a0958b744"
+                }
+              ],
               "attrs": {
                 ".element-shape": {
                   "class": "element-shape hasNoOpenThreats isInScope"
@@ -809,6 +865,18 @@
               "id": "ad8424d8-3f9c-4b18-a9ee-6ed8b659646e",
               "z": 26,
               "hasOpenThreats": false,
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "modelType": "STRIDE",
+                  "title": "Angreifer gibt sich als SIEM System aus",
+                  "type": "Spoofing",
+                  "description": "Angreifer im lokalen Netz betreibt ARP Spoofing und fängt alle Daten ab die an das SIEM System gehen würden.\nLokales Netz (VPN) ist relativ offen und deshalb der Angriff wahrscheinlich.\nLesen aller OTTs/Telefonnummern (Sehr hoher Schweregrad)",
+                  "mitigation": "Verschlüsselte Verbindung zum SIEM System\nSpoofing geht immernoch, aber Daten unbrauchbar.\nAlso nur noch DOS zum SIEM (Kriegt keine Daten mehr)",
+                  "threatId": "b8ca8da9-7644-4618-aca8-f74abcc42be4"
+                }
+              ],
               "attrs": {
                 ".element-shape": {
                   "class": "element-shape hasNoOpenThreats isInScope"
@@ -1081,6 +1149,28 @@
               "id": "e948616d-8157-4737-9f1a-5f1008da367b",
               "z": 34,
               "hasOpenThreats": false,
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "type": "Information disclosure",
+                  "title": "Email wird abgefangen",
+                  "description": "Email geht über öffentliche Server und kann deshalb abgefangen werden.\nKann nicht geändert werden, da es eine Signaturüberprüfung gibt.\n\nSehr viele Daten gehen ans Management  und können gelesen werden.\nEher Unwahrscheinlich (Nur wenige Angreifer können einfach Mails abfangen)",
+                  "mitigation": "Verschlüsselte Emails machen die Daten unleserlich.\nMan bräuchte die privaten Schlüssel",
+                  "threatId": "471a3f89-be05-4377-b201-ca47a141960b"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "title": "Mitarbeiter kann sich selber als Manager Eintragen",
+                  "description": "Wenn ein Angreifer schon Rechte von einem Mitarbeiter hat, kann er sich selber als Manager eintragen und kriegt dann alle Management Daten.\nSchwere: Relativ hoch\nWahrscheinlichkeit: Auch hoch",
+                  "mitigation": "Nur Manager können nur neue Manager hinzufügen:\nWenn ein Angreifer schon Manager ist, braucht er keine neuen Manager hinzufügen um diese Daten zu erlangen.\nSchwere: nicht mehr vorhanden\nWahrscheinlichkeit: Angreifer braucht Management Account, welcher potentiell schwerer zu bekommen ist.",
+                  "type": "Elevation of privilege",
+                  "threatId": "6dac0afe-bba4-4ed0-aa92-98602c90e9ab"
+                }
+              ],
               "attrs": {
                 ".element-shape": {
                   "class": "element-shape hasNoOpenThreats isInScope"
@@ -1206,12 +1296,34 @@
               },
               "position": {
                 "x": 504,
-                "y": 391
+                "y": 392
               },
               "angle": 0,
               "id": "c56ac19c-5ff5-406c-a0c3-7d7d46ea8aaa",
               "z": 38,
               "hasOpenThreats": false,
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "modelType": "STRIDE",
+                  "type": "Repudiation",
+                  "title": "Daten von Servern wird getraut",
+                  "description": "Angreifer könnten eigene Daten einspielen.\nDamit kann man andere Angriffe auf andere Leute schieben mit gefälschten Informationen.\n\nSchaden ist relativ niedrig, da dies weitere Spuren hinterlassen könnte\nWahrscheinlichkeit auch niedrig, da andere Angriffe vorausgehen müssen und SIEM Systeme nicht öffentlich sind.",
+                  "mitigation": "Shared Secrets für Services\n- Verifikation der Herkunft der Daten macht eine Fälschung sehr viel schwieriger.\nWahrscheinlichkeit nahe 0",
+                  "threatId": "5f30e2e0-38eb-4da6-a0c5-39abaa28e9e3"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "modelType": "STRIDE",
+                  "title": "Angreifer gibt sich im lokalen netz für 2-Faktor-Authentifizierungsdienst aus-",
+                  "type": "Denial of service",
+                  "description": "Angreifer gibt sich im Lokalem Netzwerk über (VPN) als 2FA aus und sendet viele Daten an das SIEM welches dadurch keine gescheiten urteile fällen kann, außer dass es weiß das es einen Angriff gibt.\n\nSchwere - Nicht hoch, da das SIEM trotzdem weiß, dass es einen Angriff gibt. Vielleicht ist der schwere angriff verschleiert (Das ist der Job)\nWahrscheinlichkeit - mittel, da das Netz nicht gesichert ist.",
+                  "mitigation": "Verifikation des Ursprungs der Daten über Verschlüsselung oder Signaturen\n\nMacht den Angriff beinahe unmöglich (Schlüssel muss gestohlen werden)\nWenn der Angriff klappt, weiß man zusätzlich aber noch das der 2FA Dienst auch infiltriert wurde.",
+                  "threatId": "32e3cf71-db09-4c94-8b69-955a60192784"
+                }
+              ],
               "attrs": {
                 ".element-shape": {
                   "class": "element-shape hasNoOpenThreats isInScope"
